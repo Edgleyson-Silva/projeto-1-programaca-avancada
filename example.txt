@@ -6,4 +6,4 @@
 3 0 3 4 #retangulo com vertice (3,0) e (3,4)
 Roomba #nome do robo
 6 1 #posicao do robo
-100 #porcentagem de bateria
+20 #porcentagem da bateria
