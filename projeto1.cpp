@@ -63,6 +63,12 @@ public:
     }
 };
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
 int main() {
   string line;
   // variaveis lidas no arquivo
