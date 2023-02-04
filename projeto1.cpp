@@ -9,11 +9,11 @@ class Ambiente{
 private:
     int dimensao_x; // dimensao X do ambiente
     int dimensao_y; // dimensao Y do ambiente
-    char** grade; // matriz de caracteres que representa o ambiente
     int posicao_estacao_x; // posicao X da estacao
     int posicao_estacao_y; // posicao Y da estacao
 
 public:
+    char** grade; // matriz de caracteres que representa o ambiente
     // construtor que inicializa as dimensões, posição da estação e a matriz "grade"
     Ambiente(int dim_x, int dim_y, int pos_x, int pos_y) : dimensao_x(dim_x), dimensao_y(dim_y), posicao_estacao_x(pos_x), posicao_estacao_y(pos_y){
         grade = new char*[dim_x]; // alocacao de memoria na matriz grade
@@ -63,17 +63,27 @@ public:
     }
 };
 
-#include <iostream>
-#include <fstream>
-#include <string>
+class Robo{
+  private:
+    string robo_nome;
+    int robo_x, robo_y;
+    int robo_bateria;
+    Ambiente &ambiente; // adicionar uma referencia a objeto da classe Ambiente
 
-using namespace std;
+  public:
+    Robo(string nome_robo, int x_robo, int y_robo, int bateria_robo, Ambiente &amb) : robo_nome(nome_robo), robo_x(x_robo), robo_y(y_robo), robo_bateria(bateria_robo), ambiente(amb){
+      ambiente.grade[x_robo][y_robo] = 'R';
+    }
+};
 
 int main() {
   string line;
   // variaveis lidas no arquivo
   int dim_x, dim_y, pos_x, pos_y, x, y, x1, y1, x2, y2;
   int qtd_obs, qtd_obs_ret;
+  string nomeRobo;
+  int xRobo, yRobo, bateriaRobo;
+
   ifstream myfile("example.txt"); // abre o arquivo example.txt
 
   if (myfile.is_open()){ // verifica se o arquivo foi aberto
@@ -99,6 +109,18 @@ int main() {
         stringstream(line) >> x1 >> y1 >> x2 >> y2; // atribui as coordenadas do retangulo
         ambienteTeste.AdicionarRetangulo(x1, y1, x2, y2); // adiciona retangulo ao ambiente
       }
+
+      getline(myfile, line); // le a linha do nome do robo
+      stringstream(line) >> nomeRobo; 
+
+      getline(myfile, line); // le a linha da posicao do robo
+      stringstream(line) >> xRobo >> yRobo; 
+
+      getline(myfile, line); // le a linha da porcentagem da bateria
+      stringstream(line) >> bateriaRobo;
+
+      Robo roboTeste(nomeRobo, xRobo, yRobo, bateriaRobo, ambienteTeste);
+
       ambienteTeste.ImprimirAmbiente(); // imprime o ambiente 
     }
 
