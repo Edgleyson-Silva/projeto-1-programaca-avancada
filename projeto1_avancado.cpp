@@ -111,15 +111,18 @@ class Modelo1 : public Robo{
         // Enquanto a bateria não acaba
         while(bateria_robo > 0){
           // Gera números aleatórios para escolher a direção do movimento
-          int direcao = rand() % 4;
+          
+          int valorRand = rand();
+          int direcao = valorRand % 4;
           int x = robo_x;
           int y = robo_y;
           int direcao_oposta;
 
           // Verifica a direção escolhida e se o movimento é possível
-          if(direcao == 0 && robo_x > 0 &&ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
+          //direção 0 -> cima
+          if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
             direcao_oposta = 1;
-            while(robo_x - 1 < dimensao_x && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo > 0){
+            while(robo_x - 1 > -1 && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo > 0){
               x = robo_x - 1;
               if(x != robo_x || y != robo_y){
                 ambiente.grade[robo_x][robo_y] = '0';
@@ -136,7 +139,8 @@ class Modelo1 : public Robo{
               cout << bateria_robo << endl;
             }
           }
-          else if(direcao == 1 &&robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 1){
+          //direção 1 -> baixo
+          else if(direcao == 1 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 1){
             direcao_oposta = 0;
             while(robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && bateria_robo > 0){
               x = robo_x + 1;
@@ -155,9 +159,10 @@ class Modelo1 : public Robo{
               cout << bateria_robo << endl;
             }
           }
+          //direção 2 -> esquerda
           else if(direcao == 2 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 2){
             direcao_oposta = 3;
-            while(robo_y - 1 < dimensao_x && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo > 0){
+            while(robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo > 0){
               y = robo_y - 1;
               if(x != robo_x || y != robo_y){
                 ambiente.grade[robo_x][robo_y] = '0';
@@ -174,9 +179,10 @@ class Modelo1 : public Robo{
               cout << bateria_robo << endl;
             }
           }
+          //direção 3 -> direita
           else if(direcao == 3 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 3){
             direcao_oposta = 2;
-            while(robo_y + 1 < dimensao_x && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo > 0){
+            while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo > 0){
               y = robo_y + 1;
               if(x != robo_x || y != robo_y){
                 ambiente.grade[robo_x][robo_y] = '0';
@@ -202,6 +208,8 @@ class Modelo1 : public Robo{
   };
 
 int main() {
+  srand(time(NULL)); //para gerar diferentes numeros na função rand()
+
   string line;
   // variaveis lidas no arquivo
   int dim_x, dim_y, pos_x, pos_y, x, y, x1, y1, x2, y2;
