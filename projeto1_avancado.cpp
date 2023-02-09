@@ -207,6 +207,22 @@ class Modelo1 : public Robo{
     }
   };
 
+class Bateria{
+  private:
+    int nivel;
+  
+  public:
+    Bateria(int nivel_valor) : nivel(nivel_valor) {}
+
+    int publicDecarrega(){
+      return nivel--;
+    }
+
+    int publicCarrega(){
+      return nivel++;
+    }
+};
+
 int main() {
   srand(time(NULL)); //para gerar diferentes numeros na função rand()
 
