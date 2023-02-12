@@ -5,5 +5,5 @@
 1 #numero de obstaculos retangulares
 3 0 5 4 #retangulo com vertice (3,0) e (3,4)
 Roomba #nome do robo
-6 1 #posicao do robo
-20 #porcentagem da bateria
+1 6 #posicao do robo
+30 #porcentagem da bateria
