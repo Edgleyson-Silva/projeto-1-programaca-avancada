@@ -96,6 +96,104 @@ class Robo{
     }
 };
 
+class Modelo1 : public Robo{
+    private:
+      bool para_choque;
+    public:
+      int bateria_robo = publicBateria();
+      int robo_x = publicX();
+      int robo_y = publicY();
+      Modelo1(string nome_robo, int x_robo, int y_robo, int bateria_robo, Ambiente &amb) : Robo(nome_robo, x_robo, y_robo, bateria_robo, amb){};
+      Ambiente ambiente = publicAmbiente();
+      int dimensao_x = ambiente.public_dimensao_x();
+      int dimensao_y = ambiente.public_dimensao_y();
+      int direcao;
+      void Limpar(){
+        cout << "--------------------------------------------------------------------------------------" << endl;
+        // Enquanto a bateria não acaba
+        //while(bateria_robo > 0){
+          // Gera números aleatórios para escolher a direção do movimento
+          
+          int valorRand = rand();
+          direcao = valorRand % 4;
+          int x = robo_x;
+          int y = robo_y;
+          int direcao_oposta;
+
+          // Verifica a direção escolhida e se o movimento é possível
+          //direção 0 -> cima
+          if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
+            direcao_oposta = 1;
+              cout << "subir -------------"; 
+              x = robo_x - 1;
+              if(x != robo_x || y != robo_y){
+                ambiente.grade[robo_x][robo_y] = '0';
+                robo_x = x;
+                robo_y = y;
+                ambiente.grade[robo_x][robo_y] = 'R';
+            
+              }
+        
+              ambiente.ImprimirAmbiente();
+              cout << "--------------------------------------------------------------------------------------" << endl;
+
+          }
+          else if(direcao == 1 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 1){
+            direcao_oposta = 0;
+              cout << "descer ------------";
+              x = robo_x + 1;
+              if(x != robo_x || y != robo_y){
+                ambiente.grade[robo_x][robo_y] = '0';
+                robo_x = x;
+                robo_y = y;
+                ambiente.grade[robo_x][robo_y] = 'R';
+              }
+
+              ambiente.ImprimirAmbiente();
+              cout << "--------------------------------------------------------------------------------------" << endl;
+              cout << bateria_robo << endl;
+
+          }
+          else if(direcao == 2 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 2 && robo_y > 1){
+            direcao_oposta = 3;
+              cout << "esquerda -------------";
+              y = robo_y - 1;
+              if(x != robo_x || y != robo_y){
+                ambiente.grade[robo_x][robo_y] = '0';
+                robo_x = x;
+                robo_y = y;
+                ambiente.grade[robo_x][robo_y] = 'R';
+              }
+      
+              ambiente.ImprimirAmbiente();
+              cout << "--------------------------------------------------------------------------------------" << endl;
+              cout << bateria_robo << endl;
+
+          }
+          else if(direcao == 3 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 3){
+            direcao_oposta = 2;
+
+              cout << "direita -------------";
+              y = robo_y + 1;
+              if(x != robo_x || y != robo_y){
+                ambiente.grade[robo_x][robo_y] = '0';
+                robo_x = x;
+                robo_y = y;
+                ambiente.grade[robo_x][robo_y] = 'R';
+              }
+              ambiente.ImprimirAmbiente();
+              cout << "--------------------------------------------------------------------------------------" << endl;
+              cout << bateria_robo << endl;
+
+          }
+
+          // Se o movimento é possível, atualiza a posição do robô
+        ambiente.ImprimirAmbiente();
+        cout << "--------------------------------------------------------------------------------------" << endl;
+      //}
+    }
+  };
+
 class Bateria{
   private:
     int nivel;
@@ -109,117 +207,6 @@ class Bateria{
 
     int publicCarrega(){
       return nivel++;
-    }
-
-    int publicMostraNivel(){
-      return nivel;
-    }
-};
-
-class Modelo1 : public Robo{
-    private:
-      bool para_choque;
-    public:
-      Bateria bateria_robo = publicBateria();
-      int robo_x = publicX();
-      int robo_y = publicY();
-      Modelo1(string nome_robo, int x_robo, int y_robo, int bateria_robo, Ambiente &amb) : Robo(nome_robo, x_robo, y_robo, bateria_robo, amb){};
-      Ambiente ambiente = publicAmbiente();
-      int dimensao_x = ambiente.public_dimensao_x();
-      int dimensao_y = ambiente.public_dimensao_y();
-      void Limpar(){
-        cout << "--------------------------------------------------------------------------------------" << endl;
-        // Enquanto a bateria não acaba
-        //while(bateria_robo.publicMostraNivel() > 0){
-          // Gera números aleatórios para escolher a direção do movimento
-
-          int valorRand = rand();
-          int direcao = valorRand % 4;
-          int x = robo_x;
-          int y = robo_y;
-          int direcao_oposta;
-
-          // Verifica a direção escolhida e se o movimento é possível
-          //direção 0 -> cima
-          if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
-            direcao_oposta = 1;
-            while(robo_x - 1 > -1 && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
-              x = robo_x - 1;
-              if(x != robo_x || y != robo_y){
-                ambiente.grade[robo_x][robo_y] = '0';
-                robo_x = x;
-                robo_y = y;
-                ambiente.grade[robo_x][robo_y] = 'R';
-                bateria_robo.publicDecarrega();
-              }
-              ambiente.ImprimirAmbiente();
-              cout << "--------------------------------------------------------------------------------------" << endl;
-              cout << bateria_robo.publicMostraNivel() << endl;
-            }
-          }
-          //direção 1 -> baixo
-          else if(direcao == 1 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 1){
-            direcao_oposta = 0;
-            while(robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
-              x = robo_x + 1;
-              if(x != robo_x || y != robo_y){
-                ambiente.grade[robo_x][robo_y] = '0';
-                robo_x = x;
-                robo_y = y;
-                ambiente.grade[robo_x][robo_y] = 'R';
-                bateria_robo.publicDecarrega();
-              }
-              ambiente.ImprimirAmbiente();
-
-              cout << "--------------------------------------------------------------------------------------" << endl;
-              cout << bateria_robo.publicMostraNivel() << endl;
-            }
-          }
-          //direção 2 -> esquerda
-          else if(direcao == 2 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 2){
-            direcao_oposta = 3;
-            while(robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
-              y = robo_y - 1;
-              if(x != robo_x || y != robo_y){
-                ambiente.grade[robo_x][robo_y] = '0';
-                robo_x = x;
-                robo_y = y;
-                ambiente.grade[robo_x][robo_y] = 'R';
-                bateria_robo.publicDecarrega();
-              }
-              else{ 
-                break;
-              }
-              ambiente.ImprimirAmbiente();
-              cout << "--------------------------------------------------------------------------------------" << endl;
-              cout << bateria_robo.publicMostraNivel() << endl;
-            }
-          }
-          //direção 3 -> direita
-          else if(direcao == 3 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 3){
-            direcao_oposta = 2;
-            while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
-              y = robo_y + 1;
-              if(x != robo_x || y != robo_y){
-                ambiente.grade[robo_x][robo_y] = '0';
-                robo_x = x;
-                robo_y = y;
-                ambiente.grade[robo_x][robo_y] = 'R';
-                bateria_robo.publicDecarrega();
-              }
-              else{
-                break;
-              }
-              ambiente.ImprimirAmbiente();
-              cout << "--------------------------------------------------------------------------------------" << endl;
-              cout << bateria_robo.publicMostraNivel() << endl;
-            } 
-          }
-
-          // Se o movimento é possível, atualiza a posição do robô
-            ambiente.ImprimirAmbiente();
-            cout << "--------------------------------------------------------------------------------------" << endl;
-        //}
     }
 };
 
@@ -242,16 +229,16 @@ class Parachoque {
 
     bool calculaColisoes(){
 
-      if (ambiente.grade[modelo.robo_x - 1][modelo.robo_y] == '1' || modelo.robo_x - 1 < 0){
+      if (ambiente.grade[modelo.robo_x][modelo.robo_y] == 'R' && modelo.robo_x - 1 <= 0|| ambiente.grade[modelo.robo_x - 1][modelo.robo_y] == '1') {
         cout << "------------------------------------Colisão detectada na direção Norte" << endl;
         return true;
-      } else if (modelo.robo_y > modelo.dimensao_y - 1 || ambiente.grade[modelo.robo_x][modelo.robo_y + 1] == '1') {
+      } else if (ambiente.grade[modelo.robo_x][modelo.robo_y] == 'R' && modelo.robo_y + 1 > modelo.dimensao_y || ambiente.grade[modelo.robo_x][modelo.robo_y + 1] == '1') {
         cout << "------------------------------------Colisão detectada na direção Leste" << endl;
         return true;
-      } else if (modelo.robo_x > modelo.dimensao_x - 1 || ambiente.grade[modelo.robo_x + 1][modelo.robo_y] == '1' ) {
+      } else if (ambiente.grade[modelo.robo_x][modelo.robo_y] == 'R' && modelo.robo_x + 1 > modelo.dimensao_x  || ambiente.grade[modelo.robo_x + 1][modelo.robo_y] == '1') {
         cout << "------------------------------------Colisão detectada na direção Sul" << endl;
         return true;
-      } else if (modelo.robo_y - 1 < 0|| ambiente.grade[modelo.robo_x][modelo.robo_y - 1] == '1' ) {
+      } else if (ambiente.grade[modelo.robo_x][modelo.robo_y] == 'R' && modelo.robo_y - 1 <= 0|| ambiente.grade[modelo.robo_x][modelo.robo_y - 1] == '1') {
         cout << "------------------------------------Colisão detectada na direção Oeste" << endl;
         return true;
       } else {
@@ -261,7 +248,6 @@ class Parachoque {
     }
   }
 };
-
 
 int main() {
   srand(time(NULL)); //para gerar diferentes numeros na função rand()
@@ -299,7 +285,7 @@ int main() {
         ambienteTeste.AdicionarRetangulo(x1, y1, x2, y2); // adiciona retangulo ao ambiente
       }
 
-      getline(myfile, line); // le a linha do nome do robo
+            getline(myfile, line); // le a linha do nome do robo
       stringstream(line) >> nomeRobo; 
 
       getline(myfile, line); // le a linha da posicao do robo
@@ -311,24 +297,25 @@ int main() {
       Robo roboTeste(nomeRobo, xRobo, yRobo, bateriaRobo, ambienteTeste);
 
       ambienteTeste.ImprimirAmbiente(); // imprime o ambiente 
+      
+      
+      /*
+      bool colisao;
+      if (robo_para_choque.calculaColisoes() == true){
+        return 0;
+      }*/
 
       Modelo1 modelo1Teste(nomeRobo, xRobo, yRobo, bateriaRobo, ambienteTeste);
 
-      int nivel;
+      
+      Parachoque robo_para_choque(ambienteTeste, modelo1Teste);
+      while(modelo1Teste.bateria_robo > 0){
+      robo_para_choque.calculaColisoes();
 
-      Bateria roboBateria(bateriaRobo);
+      modelo1Teste.Limpar();  
 
-      Parachoque robo_parachoque(ambienteTeste, modelo1Teste);
-
-      while(roboBateria.publicMostraNivel() > 0){
-        roboBateria.publicDecarrega();
-        robo_parachoque.calculaColisoes();
-        modelo1Teste.Limpar();
-        //cout << roboBateria.publicMostraNivel() << endl;
+      modelo1Teste.bateria_robo--;  
       }
-
-
-      //modelo1Teste.Limpar();
 
       //ambienteTeste.ImprimirAmbiente(); // imprime o ambiente 
 
