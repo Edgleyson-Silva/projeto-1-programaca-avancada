@@ -138,11 +138,11 @@ class Modelo1 : public Robo{
           int x = robo_x;
           int y = robo_y;
           int direcao_oposta;
+          direcao_oposta = - 1;
 
           // Verifica a direção escolhida e se o movimento é possível
           //direção 0 -> cima
           if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
-            direcao_oposta = 1;
             while(robo_x - 1 > -1 && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
               x = robo_x - 1;
               if(x != robo_x || y != robo_y){
@@ -156,10 +156,11 @@ class Modelo1 : public Robo{
               cout << "--------------------------------------------------------------------------------------" << endl;
               cout << bateria_robo.publicMostraNivel() << endl;
             }
+            direcao_oposta = 1;
           }
           //direção 1 -> baixo
           else if(direcao == 1 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 1){
-            direcao_oposta = 0;
+            
             while(robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
               x = robo_x + 1;
               if(x != robo_x || y != robo_y){
@@ -174,10 +175,11 @@ class Modelo1 : public Robo{
               cout << "--------------------------------------------------------------------------------------" << endl;
               cout << bateria_robo.publicMostraNivel() << endl;
             }
+            direcao_oposta = 0;
           }
           //direção 2 -> esquerda
           else if(direcao == 2 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 2){
-            direcao_oposta = 3;
+           
             while(robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
               y = robo_y - 1;
               if(x != robo_x || y != robo_y){
@@ -187,17 +189,15 @@ class Modelo1 : public Robo{
                 ambiente.grade[robo_x][robo_y] = 'R';
                 bateria_robo.publicDecarrega();
               }
-              else{ 
-                break;
-              }
               ambiente.ImprimirAmbiente();
               cout << "--------------------------------------------------------------------------------------" << endl;
               cout << bateria_robo.publicMostraNivel() << endl;
             }
+             direcao_oposta = 3;
           }
           //direção 3 -> direita
           else if(direcao == 3 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 3){
-            direcao_oposta = 2;
+            
             while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
               y = robo_y + 1;
               if(x != robo_x || y != robo_y){
@@ -207,13 +207,11 @@ class Modelo1 : public Robo{
                 ambiente.grade[robo_x][robo_y] = 'R';
                 bateria_robo.publicDecarrega();
               }
-              else{
-                break;
-              }
               ambiente.ImprimirAmbiente();
               cout << "--------------------------------------------------------------------------------------" << endl;
               cout << bateria_robo.publicMostraNivel() << endl;
             } 
+            direcao_oposta = 2;
           }
 
           // Se o movimento é possível, atualiza a posição do robô
@@ -231,22 +229,18 @@ class Parachoque {
   public:
     Parachoque(Ambiente &amb, Modelo1 model) : ambiente(amb), modelo(model){}
 
-    bool calculaColisoes(){
+    void calculaColisoes(){
+      direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0)
       if (ambiente.grade[modelo.robo_x - 1][modelo.robo_y] == '1' || modelo.robo_x - 1 < 0){
         cout << "------------------------------------Colisão detectada na direção Norte" << endl;
-        return true;
       } else if (modelo.robo_y > modelo.dimensao_y - 1 || ambiente.grade[modelo.robo_x][modelo.robo_y + 1] == '1') {
         cout << "------------------------------------Colisão detectada na direção Leste" << endl;
-        return true;
       } else if (modelo.robo_x > modelo.dimensao_x - 1 || ambiente.grade[modelo.robo_x + 1][modelo.robo_y] == '1' ) {
         cout << "------------------------------------Colisão detectada na direção Sul" << endl;
-        return true;
       } else if (modelo.robo_y - 1 < 0|| ambiente.grade[modelo.robo_x][modelo.robo_y - 1] == '1' ) {
         cout << "------------------------------------Colisão detectada na direção Oeste" << endl;
-        return true;
       } else {
         cout << "------------------------------------Nenhuma colisão detectada" << endl;
-        return false;
       }
     }
 };
@@ -270,10 +264,13 @@ public:
     int direcao = rand() % 8; // escolher uma direção aleatória entre 0 e 7
     int x = robo_x;
     int y = robo_y;
+    int direcao_oposta;
+    direcao_oposta = -1;
 
     // Verificar se a direção escolhida é válida
     //direção 0 -> cima
-    if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1'){
+    if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
+        direcao_oposta = 4;
       while(robo_x - 1 > -1 && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x - 1;
         if(x != robo_x || y != robo_y){
@@ -284,15 +281,18 @@ public:
           bateria_robo.publicDecarrega();
         }
         ambiente.ImprimirAmbiente();
+        cout << direcao << endl;
         cout << "--------------------------------------------------------------------------------------" << endl;
         cout << bateria_robo.publicMostraNivel() << endl;
       }
     }
 
     //subir + direita
-    else if(direcao == 1 && robo_x > 0 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x - 1][robo_y + 1] != '1'){
+    else if(direcao == 1 && robo_x > 0 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x - 1][robo_y + 1] != '1' && direcao_oposta != 1){
+        direcao_oposta = 5;
       while(robo_x - 1 > -1 && robo_x - 1 >= 0 && robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1  && ambiente.grade[robo_x - 1][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x - 1;
+        y = robo_y + 1;
         if(x != robo_x || y != robo_y){
           ambiente.grade[robo_x][robo_y] = 'L';
           robo_x = x;
@@ -307,7 +307,8 @@ public:
     }
 
           //direção 2 -> direita
-    else if(direcao == 2 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1'){
+    else if(direcao == 2 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 2){
+        direcao_oposta = 6;
       while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y + 1;
         if(x != robo_x || y != robo_y){
@@ -324,9 +325,11 @@ public:
     }
 
        //descer + direita
-    else if(direcao == 3 && robo_y < dimensao_y - 1 && robo_x < dimensao_x - 1  && ambiente.grade[robo_x + 1][robo_y + 1] != '1'){
+    else if(direcao == 3 && robo_y < dimensao_y - 1 && robo_x < dimensao_x - 1  && ambiente.grade[robo_x + 1][robo_y + 1] != '1' && direcao_oposta != 3){
+        direcao_oposta = 7;
       while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y + 1;
+        x = robo_x + 1;
         if(x != robo_x || y != robo_y){
           ambiente.grade[robo_x][robo_y] = 'L';
           robo_x = x;
@@ -341,7 +344,8 @@ public:
     }
 
     // descer
-    else if(direcao == 4 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1'){
+    else if(direcao == 4 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 4){
+        direcao_oposta = 0;
       while(robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x + 1;
         if(x != robo_x || y != robo_y){
@@ -359,9 +363,11 @@ public:
 
     // descer + esquerda
 
-    else if(direcao == 5 && robo_x < dimensao_x - 1 && robo_y > 0 && ambiente.grade[robo_x + 1][robo_y - 1] != '1'){
+    else if(direcao == 5 && robo_x < dimensao_x - 1 && robo_y > 0 && ambiente.grade[robo_x + 1][robo_y - 1] != '1'  && direcao_oposta != 5){
+        direcao_oposta = 1;
       while(robo_y - 1 > -1 && robo_y >= 0  && robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x + 1;
+        y = robo_y - 1;
         if(x != robo_x || y != robo_y){
           ambiente.grade[robo_x][robo_y] = 'L';
           robo_x = x;
@@ -376,7 +382,8 @@ public:
     }
 
     // esquerda
-    else if(direcao == 6 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1'){
+    else if(direcao == 6 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 6){
+        //direcao_oposta = 2;
       while(robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y - 1;
         if(x != robo_x || y != robo_y){
@@ -393,9 +400,11 @@ public:
     }
 
     //esquerda + subir
-    else if(direcao == 7 && robo_x > 0 && robo_y > 0 && ambiente.grade[robo_x - 1][robo_y - 1] != '1'){
+    else if(direcao == 7 && robo_x > 0 && robo_y > 0 && ambiente.grade[robo_x - 1][robo_y - 1] != '1' && direcao_oposta != 7){
+        direcao_oposta = 3;
       while(robo_x - 1 > -1 && robo_x - 1 && robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x - 1][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y - 1;
+        x = robo_x - 1;
         if(x != robo_x || y != robo_y){
           ambiente.grade[robo_x][robo_y] = 'L';
           robo_x = x;
@@ -470,20 +479,20 @@ int main() {
 
       
 // Modelo 1 --------------------------------------------------------------------
-  //    while(modelo1Teste.bateria_robo.publicMostraNivel() > 0){
-    //    robo_parachoque.calculaColisoes();
-      //  modelo1Teste.Limpar();
-        //roboBateria.publicDecarrega();
-        //cout << roboBateria.publicMostraNivel() << endl;
-      //}
+      while(modelo1Teste.bateria_robo.publicMostraNivel() > 0){
+        robo_parachoque.calculaColisoes();
+        modelo1Teste.Limpar();
+        roboBateria.publicDecarrega();
+        cout << roboBateria.publicMostraNivel() << endl;
+      }
 
-      Modelo2 modelo2Teste(nomeRobo, xRobo, yRobo, bateriaRobo, ambienteTeste);
+      /*Modelo2 modelo2Teste(nomeRobo, xRobo, yRobo, bateriaRobo, ambienteTeste);
 
       while(modelo2Teste.bateria_robo.publicMostraNivel() > 0){
         modelo2Teste.Limpar();
         //roboBateria.publicDecarrega();
         //cout << roboBateria.publicMostraNivel() << endl;
-      }
+      }*/
 
 
       //modelo1Teste.Limpar();
