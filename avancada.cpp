@@ -269,7 +269,7 @@ class Modelo2 : public Robo {
 private:
   int orientacao;
   bool laser;
-  int direcaoMovimento;
+  int direcaoMovimento = rand() % 8; // escolher uma direção aleatória entre 0 e 7
 
 public:
       Bateria bateria_robo = publicBateria();
@@ -284,9 +284,16 @@ public:
     return direcaoMovimento;
   }
 
+  int publicMudaDirecao(){
+    if (direcaoMovimento >= 7){
+      return direcaoMovimento = 0;
+    }
+    return direcaoMovimento++;
+    
+  }
+
   void Limpar() {
-    int valorRand = rand();
-    int direcao = rand() % 8; // escolher uma direção aleatória entre 0 e 7
+    int direcao = direcaoMovimento;
     int x = robo_x;
     int y = robo_y;
     int direcao_oposta;
@@ -296,7 +303,6 @@ public:
     //direção 0 -> cima
     if(direcao == 0 && robo_x > 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && direcao_oposta != 0){
         direcao_oposta = 4;
-        direcaoMovimento = direcao;
       while(robo_x - 1 > -1 && robo_x - 1 >= 0 && ambiente.grade[robo_x - 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x - 1;
         if(x != robo_x || y != robo_y){
@@ -316,7 +322,6 @@ public:
     //subir + direita
     else if(direcao == 1 && robo_x > 0 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x - 1][robo_y + 1] != '1' && direcao_oposta != 1){
         direcao_oposta = 5;
-        direcaoMovimento = direcao;
       while(robo_x - 1 > -1 && robo_x - 1 >= 0 && robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1  && ambiente.grade[robo_x - 1][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x - 1;
         y = robo_y + 1;
@@ -336,7 +341,6 @@ public:
           //direção 2 -> direita
     else if(direcao == 2 && robo_y < dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && direcao_oposta != 2){
         direcao_oposta = 6;
-        direcaoMovimento = direcao;
       while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && ambiente.grade[robo_x][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y + 1;
         if(x != robo_x || y != robo_y){
@@ -355,7 +359,6 @@ public:
        //descer + direita
     else if(direcao == 3 && robo_y < dimensao_y - 1 && robo_x < dimensao_x - 1  && ambiente.grade[robo_x + 1][robo_y + 1] != '1' && direcao_oposta != 3){
         direcao_oposta = 7;
-        direcaoMovimento = direcao;
       while(robo_y + 1 < dimensao_y && robo_y <= dimensao_y - 1 && robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y + 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y + 1;
         x = robo_x + 1;
@@ -364,7 +367,7 @@ public:
           robo_x = x;
           robo_y = y;
           ambiente.grade[robo_x][robo_y] = 'R';
-          bateria_robo.publicDecarrega();//a
+          bateria_robo.publicDecarrega();
         }
         ambiente.ImprimirAmbiente();
         cout << "--------------------------------------------------------------------------------------" << endl;
@@ -375,7 +378,6 @@ public:
     // descer
     else if(direcao == 4 && robo_x < dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && direcao_oposta != 4){
         direcao_oposta = 0;
-        direcaoMovimento = direcao;
       while(robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x + 1;
         if(x != robo_x || y != robo_y){
@@ -395,7 +397,6 @@ public:
 
     else if(direcao == 5 && robo_x < dimensao_x - 1 && robo_y > 0 && ambiente.grade[robo_x + 1][robo_y - 1] != '1'  && direcao_oposta != 5){
         direcao_oposta = 1;
-        direcaoMovimento = direcao;
       while(robo_y - 1 > -1 && robo_y >= 0  && robo_x + 1 < dimensao_x && robo_x <= dimensao_x - 1 && ambiente.grade[robo_x + 1][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         x = robo_x + 1;
         y = robo_y - 1;
@@ -415,7 +416,6 @@ public:
     // esquerda
     else if(direcao == 6 && robo_y > 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && direcao_oposta != 6){
         direcao_oposta = 2;
-        direcaoMovimento = direcao;
       while(robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y - 1;
         if(x != robo_x || y != robo_y){
@@ -434,7 +434,6 @@ public:
     //esquerda + subir
     else if(direcao == 7 && robo_x > 0 && robo_y > 0 && ambiente.grade[robo_x - 1][robo_y - 1] != '1' && direcao_oposta != 7){
         direcao_oposta = 3;
-        direcaoMovimento = direcao;
       while(robo_x - 1 > -1 && robo_x - 1 && robo_y - 1 > -1 && robo_y >= 0 && ambiente.grade[robo_x - 1][robo_y - 1] != '1' && bateria_robo.publicMostraNivel() > 0){
         y = robo_y - 1;
         x = robo_x - 1;
@@ -450,7 +449,26 @@ public:
         cout << bateria_robo.publicMostraNivel() << endl;
       }
     }
+  }
 
+  void publicMostraDirecao(){
+    if (direcaoMovimento == 0) {
+      cout << "direção Norte (cima)" << endl;
+    } else if (direcaoMovimento == 1){
+      cout << "direção Nordeste (Cima + direita)" << endl;
+    } else if (direcaoMovimento == 2){
+      cout << "direção Leste (direita)" << endl;
+    } else if (direcaoMovimento == 3){
+      cout << "direção Sudeste (descer + direita)" << endl;
+    } else if (direcaoMovimento == 4){
+      cout << "direção Sul (baixo)" << endl;
+    } else if (direcaoMovimento == 5){
+      cout << "direção Suldoeste (baixo + esquerda)" << endl;
+    } else if (direcaoMovimento == 6){
+      cout << "direção Oeste (esquerda)" << endl;
+    } else if (direcaoMovimento == 7){
+      cout << "direção  Noroeste (esquerda + subir)" << endl;
+    }
   }
 };
 
@@ -491,7 +509,7 @@ class Laser {
 
       //robo indo para a direcao suldoeste (baixo + esquerda) direcao -> 5
       if (modelo.robo_x >= modelo.dimensao_x - 1 || modelo.robo_y - 1 < 0 || ambiente.grade[modelo.robo_x + 1][modelo.robo_y - 1] == '1'){
-        cout << "------------------------------------Colisão detectada na direção suldoeste (baixo + esquerda)" << endl;
+        cout << "------------------------------------Colisão detectada na direção Suldoeste (baixo + esquerda)" << endl;
       }
       
       //robo indo para a direcao oeste (esquerda) direcao -> 6
@@ -578,8 +596,11 @@ int main() {
       while(modelo2Teste.bateria_robo.publicMostraNivel() > 0){
         robo_lazer.calculaColisoes(modelo2Teste);
         modelo2Teste.Limpar();
-        roboBateria.publicDecarrega();
-        cout << roboBateria.publicMostraNivel() << endl;
+        modelo2Teste.publicMudaDirecao();
+        cout << "Robo Muda para a ";
+        modelo2Teste.publicMostraDirecao();
+        modelo2Teste.bateria_robo.publicDecarrega();
+        cout << modelo2Teste.bateria_robo.publicMostraNivel() <<endl;
       }
 
 
